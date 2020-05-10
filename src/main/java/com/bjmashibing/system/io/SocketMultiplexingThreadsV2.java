@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SocketMultiplexingThreadsV2 {
     public static void main(String[] args) throws IOException {
         System.out.println(Thread.currentThread());
+
         EventLoopGroup boss = new EventLoopGroup(1);
         EventLoopGroup worker = new EventLoopGroup(3);
         ServerBootStrap b = new ServerBootStrap();

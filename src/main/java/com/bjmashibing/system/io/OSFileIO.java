@@ -17,6 +17,7 @@ public class OSFileIO {
 
     public static void main(String[] args) throws Exception {
 
+
         switch ( args[0]) {
             case "0" :
                 testBasicFileIO();
@@ -27,7 +28,7 @@ public class OSFileIO {
             case "2" :
                 testRandomAccessFileWrite();
             case "3":
-                whatByteBuffer();
+//                whatByteBuffer();
             default:
 
         }
@@ -35,7 +36,7 @@ public class OSFileIO {
 
 
     //最基本的file写
-    @Test
+
     public static  void testBasicFileIO() throws Exception {
         File file = new File(path);
         FileOutputStream out = new FileOutputStream(file);
@@ -48,7 +49,8 @@ public class OSFileIO {
     }
 
     //测试buffer文件IO
-    @Test
+    //  jvm  8kB   syscall  write(8KBbyte[])
+
     public static void testBufferedFileIO() throws Exception {
         File file = new File(path);
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
@@ -62,8 +64,8 @@ public class OSFileIO {
 
     //测试文件NIO
 
-    @Test
-    public static void testRandomAccessFileWrite() throws  Exception {
+
+        public static void testRandomAccessFileWrite() throws  Exception {
 
 
         RandomAccessFile raf = new RandomAccessFile(path, "rw");
@@ -80,8 +82,18 @@ public class OSFileIO {
         System.in.read();
 
         FileChannel rafchannel = raf.getChannel();
+        //mmap  堆外  和文件映射的   byte  not  objtect
         MappedByteBuffer map = rafchannel.map(FileChannel.MapMode.READ_WRITE, 0, 4096);
-        map.put("@@@".getBytes());
+
+        map.put("@@@".getBytes());  //不是系统调用  但是数据会到达 内核的pagecache
+            //曾经我们是需要out.write()  这样的系统调用，才能让程序的data 进入内核的pagecache
+            //曾经必须有用户态内核态切换
+            //mmap的内存映射，依然是内核的pagecache体系所约束的！！！
+            //换言之，丢数据
+            //你可以去github上找一些 其他C程序员写的jni扩展库，使用linux内核的Direct IO
+            //直接IO是忽略linux的pagecache
+            //是把pagecache  交给了程序自己开辟一个字节数组当作pagecache，动用代码逻辑来维护一致性/dirty。。。一系列复杂问题
+
         System.out.println("map--put--------");
         System.in.read();
 
@@ -94,7 +106,7 @@ public class OSFileIO {
         ByteBuffer buffer = ByteBuffer.allocate(8192);
 //        ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
 
-        int read = rafchannel.read(buffer);
+        int read = rafchannel.read(buffer);   //buffer.put()
         System.out.println(buffer);
         buffer.flip();
         System.out.println(buffer);
@@ -109,9 +121,11 @@ public class OSFileIO {
 
 
     @Test
-    public static void whatByteBuffer(){
+    public  void whatByteBuffer(){
 
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+//        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        ByteBuffer buffer = ByteBuffer.allocateDirect(1024);
+
 
         System.out.println("postition: " + buffer.position());
         System.out.println("limit: " +  buffer.limit());
@@ -123,7 +137,7 @@ public class OSFileIO {
         System.out.println("-------------put:123......");
         System.out.println("mark: " + buffer);
 
-        buffer.flip();
+        buffer.flip();   //读写交替
 
         System.out.println("-------------flip......");
         System.out.println("mark: " + buffer);

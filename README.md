@@ -97,6 +97,18 @@ read a <& 6
 ```
 
 
+```
+vm.dirty_background_ratio = 0
+vm.dirty_background_bytes = 1048576
+vm.dirty_ratio = 0
+vm.dirty_bytes = 1048576
+vm.dirty_writeback_centisecs = 5000
+vm.dirty_expire_centisecs = 30000
+```
+
+```
+cp  pcstat  /bin
+```
 
 
 
