@@ -11,7 +11,7 @@ public class SocketIO {
 
 
     public static void main(String[] args) throws Exception {
-        ServerSocket server = new ServerSocket(9090);
+        ServerSocket server = new ServerSocket(9090,20);
 
         System.out.println("step1: new ServerSocket(9090) ");
 
@@ -25,10 +25,10 @@ public class SocketIO {
                     in = client.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in));
                     while(true){
-                        String dataline = reader.readLine();
+                        String dataline = reader.readLine(); //阻塞2
 
                         if(null != dataline){
-                        System.out.println(dataline);  //阻塞
+                        System.out.println(dataline);
                         }else{
                             client.close();
                             break;

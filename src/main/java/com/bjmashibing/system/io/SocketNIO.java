@@ -1,6 +1,7 @@
 package com.bjmashibing.system.io;
 
 import java.net.InetSocketAddress;
+import java.net.StandardSocketOptions;
 import java.nio.ByteBuffer;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
@@ -16,16 +17,27 @@ public class SocketNIO {
         ss.bind(new InetSocketAddress(9090));
         ss.configureBlocking(false); //重点  OS  NONBLOCKING!!!
 
-        while(true){
+        ss.setOption(StandardSocketOptions.TCP_NODELAY, false);
+//        StandardSocketOptions.TCP_NODELAY
+//        StandardSocketOptions.SO_KEEPALIVE
+//        StandardSocketOptions.SO_LINGER
+//        StandardSocketOptions.SO_RCVBUF
+//        StandardSocketOptions.SO_SNDBUF
+//        StandardSocketOptions.SO_REUSEADDR
+
+
+
+
+        while (true) {
             Thread.sleep(1000);
             SocketChannel client = ss.accept(); //不会阻塞？  -1NULL
 
-            if(client == null ){
+            if (client == null) {
                 System.out.println("null.....");
-            }else{
+            } else {
                 client.configureBlocking(false);
                 int port = client.socket().getPort();
-                System.out.println("client...port: "+port);
+                System.out.println("client...port: " + port);
                 clients.add(client);
             }
 
@@ -33,13 +45,13 @@ public class SocketNIO {
 
             for (SocketChannel c : clients) {   //串行化！！！！  多线程！！
                 int num = c.read(buffer);  // >0  -1  0   //不会阻塞
-                if(num>0){
+                if (num > 0) {
                     buffer.flip();
-                    byte[] aaa  =  new byte[buffer.limit()];
+                    byte[] aaa = new byte[buffer.limit()];
                     buffer.get(aaa);
 
                     String b = new String(aaa);
-                    System.out.println(c.socket().getPort()+" : " + b );
+                    System.out.println(c.socket().getPort() + " : " + b);
                     buffer.clear();
                 }
 

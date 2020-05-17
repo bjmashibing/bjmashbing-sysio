@@ -110,6 +110,84 @@ vm.dirty_expire_centisecs = 30000
 cp  pcstat  /bin
 ```
 
+```
+net.ipv4.tcp_timestamps = 1
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_sack = 1
+net.ipv4.tcp_retrans_collapse = 1
+net.ipv4.tcp_syn_retries = 5
+net.ipv4.tcp_synack_retries = 5
+net.ipv4.tcp_max_orphans = 262144
+net.ipv4.tcp_max_tw_buckets = 262144
+net.ipv4.tcp_keepalive_time = 1
+net.ipv4.tcp_keepalive_probes = 9
+net.ipv4.tcp_keepalive_intvl = 75
+net.ipv4.tcp_retries1 = 3
+net.ipv4.tcp_retries2 = 15
+net.ipv4.tcp_fin_timeout = 60
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_tw_recycle = 0
+net.ipv4.tcp_abort_on_overflow = 0
+net.ipv4.tcp_stdurg = 0
+net.ipv4.tcp_rfc1337 = 0
+net.ipv4.tcp_max_syn_backlog = 2048
+net.ipv4.tcp_orphan_retries = 0
+net.ipv4.tcp_fack = 1
+net.ipv4.tcp_reordering = 3
+net.ipv4.tcp_ecn = 2
+net.ipv4.tcp_dsack = 1
+net.ipv4.tcp_mem = 364704	486272	729408
+net.ipv4.tcp_wmem = 4096	16384	4194304
+net.ipv4.tcp_rmem = 4096	87380	4194304
+net.ipv4.tcp_app_win = 31
+net.ipv4.tcp_adv_win_scale = 2
+net.ipv4.tcp_tw_reuse = 0
+net.ipv4.tcp_frto = 2
+net.ipv4.tcp_frto_response = 0
+net.ipv4.tcp_low_latency = 0
+net.ipv4.tcp_no_metrics_save = 0
+net.ipv4.tcp_moderate_rcvbuf = 1
+net.ipv4.tcp_tso_win_divisor = 3
+net.ipv4.tcp_congestion_control = cubic
+net.ipv4.tcp_abc = 0
+net.ipv4.tcp_mtu_probing = 0
+net.ipv4.tcp_base_mss = 512
+net.ipv4.tcp_workaround_signed_windows = 0
+net.ipv4.tcp_challenge_ack_limit = 100
+net.ipv4.tcp_limit_output_bytes = 131072
+net.ipv4.tcp_dma_copybreak = 4096
+net.ipv4.tcp_slow_start_after_idle = 1
+net.ipv4.tcp_available_congestion_control = cubic reno
+net.ipv4.tcp_allowed_congestion_control = cubic reno
+net.ipv4.tcp_max_ssthresh = 0
+net.ipv4.tcp_thin_linear_timeouts = 0
+net.ipv4.tcp_thin_dupack = 0
+net.ipv4.tcp_min_tso_segs = 2
+
+
+
+//server socket listen property:
+private static final int RECEIVE_BUFFER = 10;
+private static final int SO_TIMEOUT = 0;
+private static final boolean REUSE_ADDR = false;
+private static final int BACK_LOG = 5;
+
+//client socket listen property on server endpoint:
+private static final boolean CLI_KEEPALIVE = false;
+private static final boolean CLI_OOB = false;
+private static final int CLI_REC_BUF = 20;
+private static final boolean CLI_REUSE_ADDR = false;
+private static final int CLI_SEND_BUF = 20;
+private static final boolean CLI_LINGER = false;
+private static final int CLI_LINGER_N = -1;
+private static final int CLI_TIMEOUT = 5000;
+private static final boolean CLI_NO_DELAY = true;
+
+
+
+
+```
+
 
 
 

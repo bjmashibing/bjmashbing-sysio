@@ -3,6 +3,7 @@ package com.bjmashibing.system.io;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -44,6 +45,9 @@ public class NettyClient {
 
             ByteBuf byteBuf = Unpooled.copiedBuffer("hello world".getBytes());
             client.writeAndFlush(byteBuf).sync();
+
+
+
 
         } catch (InterruptedException e) {
             e.printStackTrace();

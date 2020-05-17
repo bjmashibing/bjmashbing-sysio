@@ -7,6 +7,9 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
+import java.net.SocketOptions;
+import java.net.StandardSocketOptions;
+
 public class NettyIO {
 
     public static void main(String[] args) {
@@ -18,6 +21,7 @@ public class NettyIO {
         try {
             boot.group(boss, worker)
                     .channel(NioServerSocketChannel.class)
+                    .option(ChannelOption.TCP_NODELAY,false)
                     .childHandler(new ChannelInitializer<NioSocketChannel>() {
                         @Override
                         protected void initChannel(NioSocketChannel ch) throws Exception {

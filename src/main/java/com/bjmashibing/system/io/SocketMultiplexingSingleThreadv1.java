@@ -18,7 +18,7 @@ public class SocketMultiplexingSingleThreadv1 {
             server = ServerSocketChannel.open();
             server.configureBlocking(false);
             server.bind(new InetSocketAddress(port));
-            selector = Selector.open();
+            selector = Selector.open();  //  select  poll  *epoll
             server.register(selector, SelectionKey.OP_ACCEPT);
         } catch (IOException e) {
             e.printStackTrace();

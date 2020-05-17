@@ -38,11 +38,11 @@ class ServerBootStrap {
 
     public void bind(int port) throws IOException {
         //bind 处理的是server的启动过程
-        final ServerSocketChannel server = ServerSocketChannel.open();
+         ServerSocketChannel server = ServerSocketChannel.open();
         server.configureBlocking(false);
         server.bind(new InetSocketAddress(port));
         sAcceptr = new ServerAcceptr(chiledGroup, server);
-        final EventLoop eventloop = group.chosser();
+         EventLoop eventloop = group.chosser();
         //把启动server，bind端口的操作变成task，推送到eventloop中执行。
         eventloop.execute(new Runnable() {
             @Override
